@@ -70,7 +70,7 @@ $top5table = "CREATE TABLE top5 AS
               SELECT
               kustannus_id, 
               kustannus_name,
-              ROUND (SUM(euro_brutto)/1000000,2) AS Euro_brutto
+              ROUND (SUM(euro_brutto)/1000000,2) || ' Mil€' AS Euro_brutto
               FROM Porvoo
               GROUP BY Kustannus_id
               ORDER BY SUM(euro_brutto) DESC
