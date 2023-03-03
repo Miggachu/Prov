@@ -66,7 +66,7 @@ $Query = "Select
 
 
 
-$drop = "CREATE TABLE top5 AS
+$top5tabe = "CREATE TABLE top5 AS
               SELECT
               kustannus_id INTEGER, 
               kustannus_name TEXT,
