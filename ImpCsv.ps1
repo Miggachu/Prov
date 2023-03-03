@@ -18,13 +18,9 @@ rondo_id INTEGER);"
  
 
 invoke-SqliteQuery -Query $Query -DataSource $Databas
-$Counter = 0
 
  $imp | ForEach-Object {
 
- $Counter = $Counter + 1
- $Counter
-                 #$Databas = "C:\temp\Porvoo.db"
                  $kustannus_id = $_.Kustannuspaikka
                  $kustannus_name = $_.'Kustannuspaikan nimi'.replace("'",'"')
                  $tosite_number = $_.Tositenumero
@@ -65,7 +61,34 @@ $Query = "Select
            ORDER BY SUM(euro_brutto) DESC
            Limit 5;"
            Invoke-SqliteQuery -Query $Query -DataSource $Databas
-           
+
+
+
+
+
+$drop = "CREATE TABLE top5 AS
+              SELECT
+              kustannus_id INTEGER, 
+              kustannus_name TEXT,
+              SUM(euro_brutto) REAL
+              FROM Porvoo
+              GROUP BY Kustannus_id
+              ORDER BY SUM(euro_brutto) DESC
+              Limit 5;"
+
+           Invoke-SqliteQuery -Query $top5table -DataSource $Databas
+
+
+$5list = Invoke-SqliteQuery -Query "Select * from top5;" -DataSource $Databas
+
+
+
+
+
+
+
+
+
            
            
            
