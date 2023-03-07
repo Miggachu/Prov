@@ -110,6 +110,32 @@ $COLista = Invoke-SqliteQuery -Query "Select * from colors;" -DataSource $Databa
 
 
 
+# Hexadecimal färg tabell
+$Hextable = "CREATE TABLE hexcol 
+
+(id INTEGER PRIMARY KEY, 
+ HEX TEXT);"
+
+invoke-SqliteQuery -Query $Hextable -DataSource $Databas
+
+
+$Hexa = "INSERT INTO hexcol (HEX)                 
+                             
+                             VALUES
+                             
+                               ('059bf'),
+                               ('ffc234'),
+                               ('22cfcf'),
+                               ('ff4069'),
+                               ('ff9020');"
+
+                   Invoke-SqliteQuery -Query $Hexa -DataSource $Databas
+
+
+$Hexlista = Invoke-SqliteQuery -Query "Select * from hexcol;" -DataSource $Databas
+
+
+
 
 
 
