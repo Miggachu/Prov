@@ -1,5 +1,3 @@
-﻿#Remove-Item "C:\temp\Porvoo.db"
-
 $csvfilepath = "C:\temp\Borgo.csv"
 
 $imp = Import-Csv  $csvfilepath -Encoding UTF7 -Delimiter ';' 
@@ -9,12 +7,12 @@ $Databas = "C:\temp\Porvoo.db"
 
 $Query = "CREATE TABLE Porvoo (id INTEGER PRIMARY KEY, 
 
-kustannus_id INTEGER, 
-kustannus_name TEXT,
-tosite_number INTEGER,
-tositename TEXT,
-euro_brutto REAL,
-rondo_id INTEGER);"
+                                kustannus_id INTEGER, 
+                                kustannus_name TEXT,
+                                tosite_number INTEGER,
+                                tositename TEXT,
+                                euro_brutto REAL,
+                                rondo_id INTEGER);"
  
 
 invoke-SqliteQuery -Query $Query -DataSource $Databas
@@ -80,35 +78,6 @@ $top5table = "CREATE TABLE top5 AS
 
 
 $5list = Invoke-SqliteQuery -Query "Select * from top5;" -DataSource $Databas
-
-
-
-$Color = "CREATE TABLE colors (id INTEGER PRIMARY KEY, 
-
-R INTEGER, 
-G INTEGER,
-B INTEGER);"
-
-invoke-SqliteQuery -Query $Color -DataSource $Databas
-
-$Color = "INSERT INTO colors (r, g, b)                  
-                             VALUES
-                             
-                               ('255','64','105'),
-                               ('5','155','255'),
-                               ('51','29','6'),
-                               ('34','207','207'),
-                               ('255','194','52');"
-
-                   Invoke-SqliteQuery -Query $Color -DataSource $Databas
-
-
-$COLista = Invoke-SqliteQuery -Query "Select * from colors;" -DataSource $Databas
-
-#Invoke-SqliteQuery -Query $drop -DataSource $Databas
-# $drop = "Drop table top5"
-
-
 
 # Hexadecimal färg tabell
 $Hextable = "CREATE TABLE hexcol 
