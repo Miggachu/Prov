@@ -1,5 +1,5 @@
-# Vi börjar med att importera CSV filen som vi har laddat ner från"Avoindata.fi" och deklarear en variabel som leder till mappen filen är lagrad i. Med vår $imp variabel så importerar vi vår csv fil och ger den en
-# UTF7 encoding är till för att representera unicode text i en ström av ASCII karaktärer samt en Delimiter ';' som är en avgränsare för ett eller flera tecken för att specificera gränsen mellan separata, oberonde regioner i vanlig text.
+<# Vi börjar med att importera CSV filen som vi har laddat ner från"Avoindata.fi" och deklarear en variabel som leder till mappen filen är lagrad i. Med vår $imp variabel så importerar vi vår csv fil och ger den en
+UTF7 encoding är till för att representera unicode text i en ström av ASCII karaktärer samt en Delimiter ';' som är en avgränsare för ett eller flera tecken för att specificera gränsen mellan separata, oberonde regioner i vanlig text.*>
 
 
 # File path till csv filen
@@ -58,8 +58,8 @@ invoke-SqliteQuery -Query $Query -DataSource $Databas
 $Lista = Invoke-SqliteQuery -Query "Select * from Porvoo;" -DataSource $Databas
 
 #Skapa andra tabellen, ge den en PRIMARY KEY och ett namn.
-# Plocka ut kustanus_id, kusanus_name och eur_brutto fron vår "Porvoo" tabell sedan så avrundar den eur_brutto till det närmsta 2 decimalerna samt delar summan med en miljon och ger den en alias av "Euro_brutto",
-# för att sedan gruppera det i ordning av kustanus_id och sortera det efter eur_brutto i en sjunkande ordning och limitera det till 5 resultat för att få ut top 5 resultat i samband med det top 5 högsta summorna.
+<# Plocka ut kustanus_id, kusanus_name och eur_brutto fron vår "Porvoo" tabell sedan så avrundar den eur_brutto till det närmsta 2 decimalerna samt delar summan med en miljon och ger den en alias av "Euro_brutto",
+ för att sedan gruppera det i ordning av kustanus_id och sortera det efter eur_brutto i en sjunkande ordning och limitera det till 5 resultat för att få ut top 5 resultat i samband med det top 5 högsta summorna.*>
 $top5table = "CREATE TABLE top5 AS
               SELECT
               kustannus_id, 
@@ -74,7 +74,7 @@ $top5table = "CREATE TABLE top5 AS
   Invoke-SqliteQuery -Query $top5table -DataSource $Databas
 
 
-# # skapar en variabel som väljer all information från vår "top5" tabell och visar upp den.
+# skapar en variabel som väljer all information från vår "top5" tabell och visar upp den.
 $5list = Invoke-SqliteQuery -Query "Select * from top5;" -DataSource $Databas
 
 
@@ -98,7 +98,8 @@ $Hexa = "INSERT INTO hexcol (HEX)
                                ('22cfcf'),
                                ('ff4069'),
                                ('ff9020');"
-
+                               
+# Specificerar vilken query som skall köras och vilken data källa den skall köras emot.
                    Invoke-SqliteQuery -Query $Hexa -DataSource $Databas
 
 # skapar en variabel som väljer all information från vår "hexcol" tabell och visar upp den.
