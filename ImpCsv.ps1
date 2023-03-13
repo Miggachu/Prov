@@ -1,17 +1,17 @@
-# Vi bˆrjar med att importera CSV filen som vi har laddat ner frÂn"Avoindata.fi" och deklarear en variabel som leder till mappen filen ‰r lagrad i. Med vÂr $imp variabel sÂ importerar vi vÂr csv fil och ger den en
-# UTF7 encoding ‰r till fˆr att representera unicode text i en strˆm av ASCII karakt‰rer samt en Delimiter ';' som ‰r en avgr‰nsare fˆr ett eller flera tecken fˆr att specificera gr‰nsen mellan separata, oberonde regioner i vanlig text.
+# Vi b√∂rjar med att importera CSV filen som vi har laddat ner fr√•n"Avoindata.fi" och deklarear en variabel som leder till mappen filen √§r lagrad i. Med v√•r $imp variabel s√• importerar vi v√•r csv fil och ger den en
+# UTF7 encoding √§r till f√∂r att representera unicode text i en str√∂m av ASCII karakt√§rer samt en Delimiter ';' som √§r en avgr√§nsare f√∂r ett eller flera tecken f√∂r att specificera gr√§nsen mellan separata, oberonde regioner i vanlig text.
 
 
 # File path till csv filen
 $csvfilepath = "C:\temp\Borgo.csv"
 
-# Importerar csv filen, ge den en encoding och s‰tt en delimiter.
+# Importerar csv filen, ge den en encoding och s√§tt en delimiter.
 $imp = Import-Csv  $csvfilepath -Encoding UTF7 -Delimiter ';' 
 
 # Skapa Databasen .db filen.
 $Databas = "C:\temp\Porvoo.db"
 
-# Skapa fˆrsta tabellen, ge den en PRIMARY KEY(ger ett unikt id till varje rad i tabellen) ett namn samt ge de olika raderna olika data typer i form av (TEXT, REAL och INTEGER)
+# Skapa f√∂rsta tabellen, ge den en PRIMARY KEY(ger ett unikt id till varje rad i tabellen) ett namn samt ge de olika raderna olika data typer i form av (TEXT, REAL och INTEGER)
 $Query = "CREATE TABLE Porvoo (id INTEGER PRIMARY KEY, 
 
                                 kustannus_id INTEGER, 
@@ -21,11 +21,11 @@ $Query = "CREATE TABLE Porvoo (id INTEGER PRIMARY KEY,
                                 euro_brutto REAL,
                                 rondo_id INTEGER);"
  
- # specificerar vilken query som skall kˆras och vilken data k‰lla den skall kˆras emot. 
+ # specificerar vilken query som skall k√∂ras och vilken data k√§lla den skall k√∂ras emot. 
 invoke-SqliteQuery -Query $Query -DataSource $Databas
 
  
- # Gˆr en ForEach loop d‰r man plockar ut den informationen man vill ha ur csv filen och byter namn och ers‰tter specialtecken fˆr att sedan s‰tta in den nya informationen i tabellen och databasen. 
+ # G√∂r en ForEach loop d√§r man plockar ut den informationen man vill ha ur csv filen och byter namn och ers√§tter specialtecken f√∂r att sedan s√§tta in den nya informationen i tabellen och databasen. 
  $imp | ForEach-Object {
 
                  $kustannus_id = $_.Kustannuspaikka
@@ -50,16 +50,16 @@ invoke-SqliteQuery -Query $Query -DataSource $Databas
                                                    '$euro_brutto',
                                                    '$rondo_id');"
 
-# Specificerar vilken query som skall kˆras och vilken data k‰lla den skall kˆras emot.
+# Specificerar vilken query som skall k√∂ras och vilken data k√§lla den skall k√∂ras emot.
                    Invoke-SqliteQuery -Query $Query -DataSource $Databas
 }
 
-# Skapar en variabel som v‰ljer all information frÂn vÂr "Porvoo" tabell och visar upp den.
+# Skapar en variabel som v√§ljer all information fr√•n v√•r "Porvoo" tabell och visar upp den.
 $Lista = Invoke-SqliteQuery -Query "Select * from Porvoo;" -DataSource $Databas
 
 #Skapa andra tabellen, ge den en PRIMARY KEY och ett namn.
-# Plocka ut kustanus_id, kusanus_name och eur_brutto fron vÂr "Porvoo" tabell sedan sÂ avrundar den eur_brutto till det n‰rmsta 2 decimalerna samt delar summan med en miljon och ger den en alias av "Euro_brutto",
-# fˆr att sedan gruppera det i ordning av kustanus_id och sortera det efter eur_brutto i en sjunkande ordning och limitera det till 5 resultat fˆr att fÂ ut top 5 resultat i samband med det top 5 hˆgsta summorna.
+# Plocka ut kustanus_id, kusanus_name och eur_brutto fron v√•r "Porvoo" tabell sedan s√• avrundar den eur_brutto till det n√§rmsta 2 decimalerna samt delar summan med en miljon och ger den en alias av "Euro_brutto",
+# f√∂r att sedan gruppera det i ordning av kustanus_id och sortera det efter eur_brutto i en sjunkande ordning och limitera det till 5 resultat f√∂r att f√• ut top 5 resultat i samband med det top 5 h√∂gsta summorna.
 $top5table = "CREATE TABLE top5 AS
               SELECT
               kustannus_id, 
@@ -70,20 +70,22 @@ $top5table = "CREATE TABLE top5 AS
               ORDER BY SUM(euro_brutto) DESC
               Limit 5;"
 
-           Invoke-SqliteQuery -Query $top5table -DataSource $Databas
+# Specificerar vilken query som skall k√∂ras och vilken data k√§lla den skall k√∂ras emot.
+  Invoke-SqliteQuery -Query $top5table -DataSource $Databas
 
 
-# # skapar en variabel som v‰ljer all information frÂn vÂr "top5" tabell och visar upp den.
+# # skapar en variabel som v√§ljer all information fr√•n v√•r "top5" tabell och visar upp den.
 $5list = Invoke-SqliteQuery -Query "Select * from top5;" -DataSource $Databas
 
 
 
-# Hexadecimal f‰rg tabell(se fˆrsta tabellen fˆr referens)
+# Hexadecimal f√§rg tabell(se f√∂rsta tabellen f√∂r referens)
 $Hextable = "CREATE TABLE hexcol 
 
 (id INTEGER PRIMARY KEY, 
  HEX TEXT);"
 
+# Specificerar vilken query som skall k√∂ras och vilken data k√§lla den skall k√∂ras emot.
 invoke-SqliteQuery -Query $Hextable -DataSource $Databas
 
 
@@ -99,7 +101,7 @@ $Hexa = "INSERT INTO hexcol (HEX)
 
                    Invoke-SqliteQuery -Query $Hexa -DataSource $Databas
 
-# skapar en variabel som v‰ljer all information frÂn vÂr "hexcol" tabell och visar upp den.
+# skapar en variabel som v√§ljer all information fr√•n v√•r "hexcol" tabell och visar upp den.
 $Hexlista = Invoke-SqliteQuery -Query "Select * from hexcol;" -DataSource $Databas
 
 
