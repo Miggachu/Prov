@@ -97,7 +97,10 @@ $Hextable = "CREATE TABLE hexcol
 # Specificerar vilken query som skall köras och vilken data källa den skall köras emot.
 invoke-SqliteQuery -Query $Hextable -DataSource $Databas
 
-
+<# Viktigt för hexadecimala skall fungera så måste du lägga till # tecknet i din python kod vilket man kan göra med denna bit av kod 
+for row in colors:
+    color.append("#"+row[0])
+#>
 $Hexa = "INSERT INTO hexcol (HEX)                 
                              
                              VALUES
