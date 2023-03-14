@@ -25,7 +25,8 @@ $Query = "CREATE TABLE Porvoo (id INTEGER PRIMARY KEY,
 invoke-SqliteQuery -Query $Query -DataSource $Databas
 
  
- # Gör en ForEach loop där man plockar ut den informationen man vill ha ur csv filen och byter namn och ersätter specialtecken för att sedan sätta in den nya informationen i tabellen och databasen. 
+ <# Gör en ForEach loop där man plockar ut den informationen man vill ha ur csv filen och byter namn och ersätter specialtecken med replace ("","") 
+ för att sedan sätta in den nya informationen i tabellen med INSERT INTO(tabellens namn).#> 
  $imp | ForEach-Object {
 
                  $kustannus_id = $_.Kustannuspaikka
