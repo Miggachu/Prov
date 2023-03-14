@@ -11,7 +11,8 @@ $imp = Import-Csv  $csvfilepath -Encoding UTF7 -Delimiter ';'
 # Skapa Databasen .db filen.
 $Databas = "C:\temp\Porvoo.db"
 
-# Skapa första tabellen, ge den en PRIMARY KEY(ger ett unikt id till varje rad i tabellen) ett namn samt ge de olika raderna olika data typer i form av (TEXT, REAL och INTEGER)
+# Skapa första tabellen, ge den en PRIMARY KEY(ger ett unikt id till varje rad i tabellen) 
+ett namn samt ge de olika raderna olika data typer i form av (TEXT, REAL och INTEGER, mm)
 $Query = "CREATE TABLE Porvoo (id INTEGER PRIMARY KEY, 
 
                                 kustannus_id INTEGER, 
@@ -26,14 +27,19 @@ invoke-SqliteQuery -Query $Query -DataSource $Databas
 
  
  <# Gör en ForEach loop där man plockar ut den informationen man vill ha ur csv filen och byter namn och ersätter specialtecken med replace ("","") 
- för att sedan sätta in den nya informationen i tabellen med INSERT INTO(tabellens namn).#> 
+ för att sedan sätta in den nya informationen i tabellen med INSERT INTO(tabellens namn).
+ I första delen så kopplar vi de nya namnen till de gamla värderna t.ex. kustannus_id = $_.Kustannuspaikka
+ med this ($_.) som används för arr referera till ett specifikt objekt.
+ under $Query så matar vi in den nya informationen kolumn namnen och deras värde i tabellen.
+ 
+ #> 
  $imp | ForEach-Object {
 
                  $kustannus_id = $_.Kustannuspaikka
-                 $kustannus_name = $_.'Kustannuspaikan nimi'.replace("'",'"')
-                 $tosite_number = $_.Tositenumero
-                 $tositename = $_.Selite.replace("'",'"')
-                 $euro_brutto = $_.'EUR, brutto'.replace(" ","").replace(",",".")
+                 $kustannus_name = $_.'Kustannuspaikan nimi'.replace("'",'"') #(replace"'",'"') ersätter enkelt citattecken med citattecken.
+                 $tosite_number = $_.Tositenumer
+                 $tositename = $_.Selite.replace("'",'"') #(replace"'",'"') ersätter enkelt citattecken med citattecken.
+                 $euro_brutto = $_.'EUR, brutto'.replace(" ","").replace(",",".") #(replace"'",'"') ersätter enkelt kommatecken med punkt.
                  $rondo_id = $_.'Rondo ID'
 
                  $Query = "INSERT INTO Porvoo (kustannus_id,
@@ -59,8 +65,10 @@ invoke-SqliteQuery -Query $Query -DataSource $Databas
 $Lista = Invoke-SqliteQuery -Query "Select * from Porvoo;" -DataSource $Databas
 
 #Skapa andra tabellen, ge den en PRIMARY KEY och ett namn.
-<# Plocka ut kustanus_id, kusanus_name och eur_brutto fron vår "Porvoo" tabell sedan så avrundar den eur_brutto till det närmsta 2 decimalerna samt delar summan med en miljon och ger den en alias av "Euro_brutto",
- för att sedan gruppera det i ordning av kustanus_id och sortera det efter eur_brutto i en sjunkande ordning och limitera det till 5 resultat för att få ut top 5 resultat i samband med det top 5 högsta summorna.*>
+<# Plocka ut kustanus_id, kusanus_name och eur_brutto från vår "Porvoo" tabell sedan så avrundar den med (ROUND)
+ eur_brutto till det närmsta 2 decimalerna samt delar summan med en miljon och ger den en alias av "Euro_brutto",
+ för att sedan gruppera (GROUP BY) det i ordning av kustanus_id och sortera det efter eur_brutto(ORDER BY) i en sjunkande ordning(DESC) 
+ och limitera det (LIMIT) till 5 resultat för att få ut top 5 resultat i samband med det 5 högsta summorna.*>
 $top5table = "CREATE TABLE top5 AS
               SELECT
               kustannus_id, 
