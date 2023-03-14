@@ -1,12 +1,17 @@
-/*Vi sätter upp vårt html dokument med Doctype html, html lang, i vår head tag så specificerar vi vilken metacharset vi använder. Sedan använder vi oss av meta taggen "veiwport" för att kontrollera storleken på förstret 
+<!--Vi sätter upp vårt html dokument med Doctype html, html lang, i vår head tag så specificerar vi vilken metacharset vi använder. Sedan använder vi oss av meta taggen "veiwport" för att kontrollera storleken på förstret 
 där innehållet av websidan kan ses och vi sätter att den ska skala upp/ner i relation till enheten och fönstret då det ofta inte är samma storlek som den renderade sidan.
 vi skriver in vår title "Chart" som kommer visas i webbläsarens tab när vi öppnar hemsidan, efter det så ska vi ta vår länk till Chart.js CDN (Content delivery network) och kopiera in den inom vår script tag
 vi kan nu stänga vår head tag och gå vidare till body taggen.
 
 i mitt exempel har jag valt att lägga till en rubrik i en <h1> tagg det är inte nödvändigt men kan ge kontext till personen som ser denna graf,
-  efter det så skapar vi en canvas tag och ger den ett id samt bred och höjd, det är viktigt att canvas elementet har ett unikt id!
+efter det så skapar vi en canvas tag och ger den ett id samt bred och höjd, det är viktigt att canvas elementet har ett unikt id!
+i vår variabel ctx (kort för ConTeXt) som hänvisar till DOM(document object model) och väljer ut vårt element med hjälp av id(doughnutChart) och ger den en höjd och bredd samt ge den ett context att den skall visas i 2d,
+i variabeln doughnutChart så skapar vi en ny chart och med ctx får vi ut höjd och bredd värden för vår nya chart med (type) så kan vi välja vilken typ av graf vi 
+skall visas i vårt fall doughnut.
+och med hjälpa av jinja{{}} som tillåter oss att substituerar uttryck
+
+-->
   
-  */
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +27,7 @@ i mitt exempel har jag valt att lägga till en rubrik i en <h1> tagg det är int
     <canvas id="doughnutChart" width="800" height="400"></canvas>
     <script>
       var ctx = document.getElementById('doughnutChart').getContext('2d');
-      var lineChart = new Chart(ctx, {
+      var doughnutChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
           labels: {{ labels | safe }},
@@ -36,8 +41,7 @@ i mitt exempel har jag valt att lägga till en rubrik i en <h1> tagg det är int
             }
       ]
         },
-      
-            
+              
       options: {
         title:{
           display: true,
