@@ -1,7 +1,8 @@
-#Steg 1: Installera en viritualenv Genom att använda virtualenv kan du undvika att installera Python-paket globalt som kan bryta systemverktyg eller andra projekt. 
-#Steg 2: Skapa en virituell miljö genom att gå in i VS code och med (Ctrl+Shift+P) så kan du ta dig till Command Palette, bärja skriva in Python: Create Environment 
+#Steg 1: Installera senaste versionen av Python via VS code.
+#Steg 2: Installera en viritualenv Genom att använda virtualenv kan du undvika att installera Python-paket globalt som kan bryta systemverktyg eller andra projekt. 
+#Steg 3: Skapa en virituell miljö genom att gå in i VS code och med (Ctrl+Shift+P) så kan du ta dig till Command Palette, bärja skriva in Python: Create Environment 
 # och i drop down listan som visas så väljer du (Venv) som skapar och aktiverar en .venv virituell miljö. 
-#Steg 3: Installera Flask (python3 -m pip install flask)
+#Steg 4: Installera Flask (python3 -m pip install flask)
 
 #När vi har installerat flask paketet så måste vi importera Flask från flask paketet
 from flask import Flask, render_template
